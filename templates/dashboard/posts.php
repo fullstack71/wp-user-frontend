@@ -65,7 +65,8 @@ if ( $msg == 'deleted' ) {?>
 }
 
 $args = [
-    //'author'         => get_current_user_id(),
+    'author'         => get_current_user_id(),
+    'category_name'  => isset($_GET["category"]) ? $_GET["category"] : false,
     'post_status'    => ['draft', 'future', 'pending', 'publish', 'private'],
     'post_type'      => $post_type,
     'posts_per_page' => wpuf_get_option( 'per_page', 'wpuf_dashboard', 5 ),

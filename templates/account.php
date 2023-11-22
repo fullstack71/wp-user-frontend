@@ -29,13 +29,46 @@
                             $active_tab = true;
                         }
 
-                        $active = $active_tab ? $section . ' active' : $section;
-                        echo sprintf(
-                            '<li class="wpuf-menu-item %s"><a href="%s">%s</a></li>',
-                            esc_attr( $active ),
-                            esc_attr( add_query_arg( [ 'section' => $section ], get_permalink() ) ),
-                            esc_attr( $label )
-                         );
+                        if ('legacy' != $section) {
+                            $active = $active_tab ? $section . ' active' : $section;
+                            echo sprintf(
+                                '<li class="wpuf-menu-item %s"><a href="%s">%s</a></li>',
+                                esc_attr( $active ),
+                                esc_attr( add_query_arg( [ 'section' => $section ], get_permalink() ) ),
+                                esc_attr( $label )
+                            );
+                        } else {
+                            echo sprintf('<ul>');
+                            $args = array(
+                                'taxonomy' => 'category'
+                            );
+                            $cats = get_categories($args);
+                            foreach($cats as $cat) {
+                                if (isset($_GET["category"])){
+                                    $active = $_GET["category"] == $cat->slug ? $cat->slug . ' active' : $cat->slug;
+                                } else {
+                                    $active = $active_tab ? $section . ' active' : $section;
+                                }
+                                if($cat->slug == 'legacy-dashboard'){
+                                    echo sprintf(
+                                        '<li class="wpuf-menu-item %s"><a href="%s">%s</a></li>',
+                                        esc_attr( $active ),
+                                        esc_attr( add_query_arg( [ 'section' => $section, 'category' =>$cat->slug ], get_permalink() ) ),
+                                        esc_attr( $cat->name )
+                                    );
+                                    echo sprintf('<li class="wpuf-menu-item" style="font-weight: 700; color: #000;">Review post</li>');
+                                } else {
+                                    echo sprintf(
+                                        '<li class="wpuf-menu-item %s" style="padding-left: 20px"><a href="%s">%s</a></li>',
+                                        esc_attr( $active ),
+                                        esc_attr( add_query_arg( [ 'section' => $section, 'category' =>$cat->slug ], get_permalink() ) ),
+                                        esc_attr( $cat->name )
+                                    );
+                                }
+                            }
+                            echo sprintf('</ul>');
+                        }
+
                     }
                 }
             ?>

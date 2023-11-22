@@ -266,6 +266,7 @@ final class WP_User_Frontend {
         require_once WPUF_ROOT . '/admin/form-builder/class-wpuf-form-builder-field-settings.php';
 
         // global classes/functions
+        require_once WPUF_ROOT . '/includes/post-status.php';
         require_once WPUF_ROOT . '/class/upload.php';
         require_once WPUF_ROOT . '/admin/form-template.php';
         require_once WPUF_ROOT . '/class/post-form-template.php';
